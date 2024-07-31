@@ -107,16 +107,16 @@ To rewrite the edited commit on the remote. Otherwise,
 git push # is fine
 ```
 
-## Apply a patch from a pr
+## Apply a diff from a pr
 
-Make the patch file
+Make the diff file
 Go to github pr url and add ‘.diff’
 Curl the url
 
 Apply the patch with reject
 
 ```bash
-git apply --reject --whitespace=fix ../xt-485.patch
+git apply --reject --whitespace=fix ../tmp.diff
 ```
 
 ## Apply a commit from another branch
