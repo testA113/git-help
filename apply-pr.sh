@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the project path
-PROJECT_PATH="/Users/aliharris/portainer/portainer"
+PROJECT_PATH="/Users/aliharris/portainer/portainer-suite"
 
 # Define the temporary directory path
 TMP_DIR="/Users/aliharris/portainer/tmp"
@@ -31,7 +31,7 @@ fi
 # Apply the diff to the project
 echo "Applying diff to the project..."
 cd "$PROJECT_PATH"
-git apply --reject --whitespace=fix "$TMP_DIR/$DIFF_FILE_NAME"
+git apply --reject -p3 --whitespace=fix --directory=package/server-ce/ "$TMP_DIR/$DIFF_FILE_NAME"
 
 # Check if git apply was successful
 if [ $? -eq 0 ]; then
