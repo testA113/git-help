@@ -107,7 +107,7 @@ To rewrite the edited commit on the remote. Otherwise,
 git push # is fine
 ```
 
-## Apply a diff from a pr
+## Apply a diff from a pr to another git project
 
 Make the diff file
 Go to github pr url and add ‘.diff’
@@ -117,6 +117,18 @@ Apply the patch with reject
 
 ```bash
 git apply --reject --whitespace=fix ../tmp.diff
+```
+
+## Apply a diff from a pr to another directory in the same project (monorepo)
+
+Make the diff file
+Go to github pr url and add ‘.diff’
+Curl the url
+
+Apply the patch with reject and directory
+
+```bash
+git apply --reject -p3 --whitespace=fix --directory=package/server-ce/ ../tmp.diff
 ```
 
 ## Apply a commit from another branch
@@ -131,6 +143,12 @@ git cherry-pick <hash>
 git format-patch sha1^..sha1
 cd /path/to/2
 git am -3 --reject --whitespace=fix /path/to/1/0001-...-....patch
+```
+
+## Apply a commit from a branch to another branch in the same project
+
+```bash
+git diff HEAD^ | git apply --reject -p3 --whitespace=fix --directory=package/server-ce/
 ```
 
 [script here](move-commit.sh)
