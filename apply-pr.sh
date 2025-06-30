@@ -33,30 +33,35 @@ select_source_project() {
 select_source_project
 
 # Prompt the user for the URL of the diff file
-read -p "Enter the URL of the diff file: " DIFF_URL
+read -p "Enter the PR number: " PR_NUMBER
 
-# Extract the diff file name from the URL
-DIFF_FILE_NAME=$(basename "$DIFF_URL")
+# Define the diff file name based on PR number
+DIFF_FILE_NAME="pr-${PR_NUMBER}.diff"
 
 # Create the temporary directory if it doesn't exist
 mkdir -p "$TMP_DIR"
 
-# Change to the temporary directory
-cd "$TMP_DIR"
+# Set the diff file path
+DIFF_FILE_PATH="$TMP_DIR/$DIFF_FILE_NAME"
 
-# Download the diff file
-echo "Downloading diff file from $DIFF_URL..."
-curl "$DIFF_URL" -o "$DIFF_FILE_NAME"
+# Navigate to the source project directory to run GitHub CLI commands
+cd "$PROJECT_PATH/$SOURCE_PATH"
+
+# Download the diff file using GitHub CLI
+echo "Fetching diff for PR #${PR_NUMBER}..."
+gh pr diff ${PR_NUMBER} > "$DIFF_FILE_PATH"
 
 # Check if download is successful
-if [ ! -f "$DIFF_FILE_NAME" ]; then
-    echo "Error: Failed to download the diff file."
+if [ ! -f "$DIFF_FILE_PATH" ] || [ ! -s "$DIFF_FILE_PATH" ]; then
+    echo "Error: Failed to fetch the diff for PR #${PR_NUMBER}."
     exit 1
 fi
 
+# Return to the project root directory
+cd "$PROJECT_PATH"
+
 # Apply the diff to the project
 echo "Applying diff to the project..."
-cd "$PROJECT_PATH"
 git apply --reject -p3 --whitespace=fix --directory=$TARGET_PATH "$TMP_DIR/$DIFF_FILE_NAME"
 
 # Check if git apply was successful
