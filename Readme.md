@@ -131,6 +131,18 @@ Apply the patch with reject and directory
 git apply --reject -p3 --whitespace=fix --directory=package/server-ce/ ../tmp.diff
 ```
 
+### Apply a PR across between two branches in the same project
+
+e.g. copy across PR for develop to a new branch for the release branch
+
+Step-by-step (assumes a clean new branch, no local changes):
+
+- Fetch the PR diff from GitHub: `gh pr diff <PR_NUMBER> > /tmp/pr.diff`
+- From the suite root, apply the diff project-wide: `git apply --reject -p1 --whitespace=fix /tmp/pr.diff`
+- Resolve any `.rej` files if they appear, then commit.
+
+You can also use the script `apply-pr-from-branch.sh` (prompts for PR number and applies from the suite root).
+
 ## Apply a commit from another branch
 
 ```bash
