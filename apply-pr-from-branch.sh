@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Port a diff from an existing PR to a new branch.
+# This is useful when we need patch releases and we need to apply PRs to both the develop branch and a release branch.
+# 
+# Assumes that you have created a new branch from another base branch.
+# E.g. 
+# - I've created a develop PR that doesn't need any more changes, and know the PR number
+# - I've made a new branch based on the latest release branch
+
 # Define the project path
 PROJECT_PATH="/Users/aliharris/portainer/portainer-suite"
 
