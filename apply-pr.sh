@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# apply the EE changes from a PR to CE. For any code that fails to apply, .rej files will be created.
+
 # Use the current Portainer worktree when run from one, otherwise prompt for
 # the target worktree root.
 WORKTREE_BASE="${WORKTREE_BASE:-/Users/aliharris/portainer}"
